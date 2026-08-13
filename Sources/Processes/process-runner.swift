@@ -14,12 +14,14 @@ public struct ProcessRunner:
 
     public func run(
         _ specification: ProcessSpecification,
+        onStart: ProcessStartHandler? = nil,
         onStdout: ProcessOutputHandler? = nil,
         onStderr: ProcessOutputHandler? = nil
     ) async throws -> ProcessResult {
         guard let timeout = specification.timeout else {
             return try await runManaged(
                 specification,
+                onStart: onStart,
                 onStdout: onStdout,
                 onStderr: onStderr
             )
@@ -28,6 +30,7 @@ public struct ProcessRunner:
         return try await runManaged(
             specification,
             timeout: timeout,
+            onStart: onStart,
             onStdout: onStdout,
             onStderr: onStderr
         )
@@ -73,6 +76,7 @@ private extension ProcessRunner {
     func runManaged(
         _ specification: ProcessSpecification,
         timeout: Duration,
+        onStart: ProcessStartHandler?,
         onStdout: ProcessOutputHandler?,
         onStderr: ProcessOutputHandler?
     ) async throws -> ProcessResult {
@@ -84,6 +88,7 @@ private extension ProcessRunner {
                 .completed(
                     try await runManaged(
                         specification,
+                        onStart: onStart,
                         onStdout: onStdout,
                         onStderr: onStderr
                     )
@@ -118,6 +123,7 @@ private extension ProcessRunner {
 
     func runManaged(
         _ specification: ProcessSpecification,
+        onStart: ProcessStartHandler?,
         onStdout: ProcessOutputHandler?,
         onStderr: ProcessOutputHandler?
     ) async throws -> ProcessResult {
@@ -125,6 +131,7 @@ private extension ProcessRunner {
         case .pipes:
             return try await runPiped(
                 specification,
+                onStart: onStart,
                 onStdout: onStdout,
                 onStderr: onStderr
             )
@@ -132,6 +139,7 @@ private extension ProcessRunner {
         case .pseudoTerminal:
             return try await PseudoTerminalProcessRunner().run(
                 specification,
+                onStart: onStart,
                 onOutput: onStdout
             )
         }
@@ -139,6 +147,7 @@ private extension ProcessRunner {
 
     func runPiped(
         _ specification: ProcessSpecification,
+        onStart: ProcessStartHandler?,
         onStdout: ProcessOutputHandler?,
         onStderr: ProcessOutputHandler?
     ) async throws -> ProcessResult {
@@ -171,6 +180,16 @@ private extension ProcessRunner {
                 output: Subprocess.SequenceOutput.sequence,
                 error: Subprocess.SequenceOutput.sequence
             ) { execution in
+                if let onStart {
+                    await onStart(
+                        Int64(
+                            execution
+                                .processIdentifier
+                                .value
+                        )
+                    )
+                }
+
                 async let stdout = collectOutput(
                     execution.standardOutput,
                     stream: .stdout,

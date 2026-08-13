@@ -8,6 +8,7 @@ struct PseudoTerminalProcessRunner:
 {
     func run(
         _ specification: ProcessSpecification,
+        onStart: ProcessStartHandler?,
         onOutput: ProcessOutputHandler?
     ) async throws -> ProcessResult {
         guard specification.input == .none else {
@@ -26,6 +27,7 @@ struct PseudoTerminalProcessRunner:
                     try await runDetached(
                         specification,
                         state: state,
+                        onStart: onStart,
                         onOutput: onOutput
                     )
                 }
@@ -47,6 +49,7 @@ private extension PseudoTerminalProcessRunner {
     func runDetached(
         _ specification: ProcessSpecification,
         state: PseudoTerminalProcessState,
+        onStart: ProcessStartHandler?,
         onOutput: ProcessOutputHandler?
     ) async throws -> ProcessResult {
         var master: Int32 = -1
@@ -334,6 +337,14 @@ private extension PseudoTerminalProcessRunner {
         state.register(
             pid: pid
         )
+
+        if let onStart {
+            await onStart(
+                Int64(
+                    pid
+                )
+            )
+        }
 
         let currentFlags = fcntl(
             master,
@@ -808,6 +819,7 @@ struct PseudoTerminalProcessRunner:
 {
     func run(
         _ specification: ProcessSpecification,
+        onStart: ProcessStartHandler?,
         onOutput: ProcessOutputHandler?
     ) async throws -> ProcessResult {
         throw ProcessError.pseudoTerminalUnavailable

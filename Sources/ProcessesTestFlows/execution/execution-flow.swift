@@ -11,6 +11,35 @@ extension ProcessesFlowSuite {
                 "execution",
             ]
         ) {
+            Step("report process identifier at start") {
+                let recorder = ProcessStartRecorder()
+
+                let result = try await ProcessRunner().run(
+                    .init(
+                        executable: .path(
+                            "/bin/sh"
+                        ),
+                        arguments: [
+                            "-c",
+                            "exit 0",
+                        ]
+                    ),
+                    onStart: { pid in
+                        await recorder.record(
+                            pid
+                        )
+                    }
+                )
+
+                let startedPID = await recorder.value()
+
+                try Expect.equal(
+                    startedPID ?? -1,
+                    result.processIdentifier,
+                    "start callback reports actual process identifier"
+                )
+            }
+
             Step("execute process and collect stdout") {
                 let result = try await ProcessRunner().run(
                     .init(
@@ -194,5 +223,21 @@ extension ProcessesFlowSuite {
                 )
             }
         }
+    }
+}
+
+
+private actor ProcessStartRecorder {
+    private var processIdentifier: Int64?
+
+    func record(
+        _ processIdentifier: Int64
+    ) {
+        self.processIdentifier =
+            processIdentifier
+    }
+
+    func value() -> Int64? {
+        processIdentifier
     }
 }
