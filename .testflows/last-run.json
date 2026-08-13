@@ -1,0 +1,57 @@
+{
+  "failed" : 0,
+  "failed_names" : [
+
+  ],
+  "generated_at" : "2026-08-13T15:46:46Z",
+  "passed" : 4,
+  "results" : [
+    {
+      "display_name" : "execution",
+      "duration_seconds" : 0.03522002696990967,
+      "name" : "execution",
+      "status" : "passed",
+      "tags" : [
+        "execution",
+        "process"
+      ]
+    },
+    {
+      "display_name" : "io",
+      "duration_seconds" : 1.0344910621643066,
+      "name" : "io",
+      "status" : "passed",
+      "tags" : [
+        "io",
+        "process",
+        "streaming"
+      ]
+    },
+    {
+      "display_name" : "lifetime",
+      "duration_seconds" : 0.43802595138549805,
+      "name" : "lifetime",
+      "status" : "passed",
+      "tags" : [
+        "cancellation",
+        "lifetime",
+        "process"
+      ]
+    },
+    {
+      "display_name" : "pty",
+      "duration_seconds" : 1.634192943572998,
+      "name" : "pty",
+      "status" : "passed",
+      "tags" : [
+        "lifetime",
+        "process",
+        "pty",
+        "streaming"
+      ]
+    }
+  ],
+  "skipped" : 0,
+  "title" : "Processes flow tests",
+  "total" : 4
+}
