@@ -8,5 +8,6 @@ enum ProcessesFlowSuite: TestFlowRegistry {
         ioFlow,
         lifetimeFlow,
         ptyFlow,
+        sessionFlow,
     ]
 }
