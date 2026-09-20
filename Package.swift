@@ -12,6 +12,10 @@ let package = Package(
             name: "Processes",
             targets: ["Processes"]
         ),
+        .library(
+            name: "TestFlowsProcesses",
+            targets: ["TestFlowsProcesses"]
+        ),
         .executable(
             name: "ptest",
             targets: ["ProcessesTestFlows"]
@@ -46,10 +50,21 @@ let package = Package(
                 ),
             ]
         ),
+        .target(
+            name: "TestFlowsProcesses",
+            dependencies: [
+                "Processes",
+                .product(
+                    name: "TestFlows",
+                    package: "TestFlows"
+                ),
+            ]
+        ),
         .executableTarget(
             name: "ProcessesTestFlows",
             dependencies: [
                 "Processes",
+                "TestFlowsProcesses",
                 .product(
                     name: "TestFlows",
                     package: "TestFlows"

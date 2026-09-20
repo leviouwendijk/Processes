@@ -3,12 +3,12 @@
   "failed_names" : [
 
   ],
-  "generated_at" : "2026-08-13T19:40:24Z",
-  "passed" : 4,
+  "generated_at" : "2026-09-20T11:21:38Z",
+  "passed" : 6,
   "results" : [
     {
       "display_name" : "execution",
-      "duration_seconds" : 0.03792405128479004,
+      "duration_seconds" : 0.055542945861816406,
       "name" : "execution",
       "status" : "passed",
       "tags" : [
@@ -18,7 +18,7 @@
     },
     {
       "display_name" : "io",
-      "duration_seconds" : 1.0175820589065552,
+      "duration_seconds" : 1.0383208990097046,
       "name" : "io",
       "status" : "passed",
       "tags" : [
@@ -29,7 +29,7 @@
     },
     {
       "display_name" : "lifetime",
-      "duration_seconds" : 0.43480098247528076,
+      "duration_seconds" : 0.45069897174835205,
       "name" : "lifetime",
       "status" : "passed",
       "tags" : [
@@ -40,7 +40,7 @@
     },
     {
       "display_name" : "pty",
-      "duration_seconds" : 1.5819880962371826,
+      "duration_seconds" : 1.6568639278411865,
       "name" : "pty",
       "status" : "passed",
       "tags" : [
@@ -49,9 +49,33 @@
         "pty",
         "streaming"
       ]
+    },
+    {
+      "display_name" : "session",
+      "duration_seconds" : 0.011779069900512695,
+      "name" : "session",
+      "status" : "passed",
+      "tags" : [
+        "lifetime",
+        "process",
+        "session",
+        "stdin",
+        "streaming"
+      ]
+    },
+    {
+      "display_name" : "process-fixture",
+      "duration_seconds" : 0.24815988540649414,
+      "name" : "process-fixture",
+      "status" : "passed",
+      "tags" : [
+        "fixture",
+        "integration",
+        "process"
+      ]
     }
   ],
   "skipped" : 0,
   "title" : "Processes flow tests",
-  "total" : 4
+  "total" : 6
 }
