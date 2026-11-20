@@ -8,10 +8,6 @@ let package = Package(
         .macOS(.v13)
     ],
     products: [
-        .library(
-            name: "TestFlowsProcesses",
-            targets: ["TestFlowsProcesses"]
-        ),
         .executable(
             name: "ptest",
             targets: ["ProcessesTestFlows"]
@@ -26,21 +22,11 @@ let package = Package(
         .package(path: ".."),
     ],
     targets: [
-        .target(
-            name: "TestFlowsProcesses",
-            dependencies: [
-                .product(name: "Processes", package: "Processes"),
-                .product(
-                    name: "TestFlows",
-                    package: "TestFlows"
-                ),
-            ]
-        ),
         .executableTarget(
             name: "ProcessesTestFlows",
             dependencies: [
                 .product(name: "Processes", package: "Processes"),
-                "TestFlowsProcesses",
+                .product(name: "TestFlowsProcesses", package: "Processes"),
                 .product(
                     name: "TestFlows",
                     package: "TestFlows"

@@ -12,6 +12,7 @@ let package = Package(
             name: "Processes",
             targets: ["Processes"]
         ),
+        .library(name: "TestFlowsProcesses", targets: ["TestFlowsProcesses"]),
     ],
     dependencies: [
         .package(
@@ -22,6 +23,7 @@ let package = Package(
             url: "https://github.com/swiftlang/swift-subprocess.git",
             from: "1.0.0"
         ),
+        .package(url: "https://github.com/leviouwendijk/TestFlows.git", branch: "master"),
     ],
     targets: [
         .target(
@@ -35,6 +37,13 @@ let package = Package(
                     name: "Subprocess",
                     package: "swift-subprocess"
                 ),
+            ]
+        ),
+        .target(
+            name: "TestFlowsProcesses",
+            dependencies: [
+                "Processes",
+                .product(name: "TestFlows", package: "TestFlows"),
             ]
         ),
     ],
