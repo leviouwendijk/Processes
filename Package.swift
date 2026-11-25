@@ -23,7 +23,7 @@ let package = Package(
             url: "https://github.com/swiftlang/swift-subprocess.git",
             from: "1.0.0"
         ),
-        .package(url: "https://github.com/leviouwendijk/TestFlows.git", branch: "master"),
+        .package(url: "https://github.com/swift-tooling/TestFlows.git", branch: "master"),
     ],
     targets: [
         .target(
